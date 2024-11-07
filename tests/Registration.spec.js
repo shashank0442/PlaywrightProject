@@ -20,15 +20,15 @@ test('Verify registration functionality', async ({ page }) => {
 
     await expect(registrationPage.passwordErrorMessage, 'Password error message not displayed twice').toHaveCount(2);
     registrationPage.gender.check();
-    await registrationPage.firstName.fill('testa');
-    await registrationPage.lastName.fill('passa');
+    await registrationPage.firstName.fill('test');
+    await registrationPage.lastName.fill('pass');
 
     // Entering correct email
-    await registrationPage.email.fill('testa.passb@gmail.com');
+    await registrationPage.email.fill('test.pass@gmail.com');
 
     // Entering password
-    await registrationPage.password.fill('TestPass@123b');
-    await registrationPage.confirmPassword.fill('TestPass@123b');
+    await registrationPage.password.fill('TestPass@123');
+    await registrationPage.confirmPassword.fill('TestPass@123');
 
     await page.pause();
 

@@ -9,6 +9,12 @@ test('Verify login functionality', async ({ page }) => {
     await expect(loginPage.returningCustomer,loginPage.returningCustomer+' is not displayed.').toBeVisible();
     await expect(loginPage.welcomeMessage,loginPage.welcomeMessage+' is not displayed.').toBeVisible();
     await loginPage.validateCategories();
-    await loginPage.login('testa.passa@gmail.com','TestPass@123b');
+    await loginPage.login('test.pass1@gmail.com','TestPass@123');
+
+    await page.pause();
+
+    
+
+
 
 });
