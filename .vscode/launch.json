@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "https://demowebshop.tricentis.com/cart",
+            "request": "launch",
+            "url": "https://demowebshop.tricentis.com/cart"
+        }
+    ]
+}
