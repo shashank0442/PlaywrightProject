@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { ProductSearchPage } from "../Pages/productSearchPage";
 import { LoginPage } from '../Pages/loginPage';
-import { log } from 'console';
 
 test('Verify login functionality', async ({ page }) => {
     let username = 'test.pass1@gmail.com';

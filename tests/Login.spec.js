@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-import { assert } from 'console';
 import { LoginPage } from '../Pages/loginPage';
 
 test('Verify login functionality', async ({ page }) => {
@@ -10,11 +9,4 @@ test('Verify login functionality', async ({ page }) => {
     await expect(loginPage.welcomeMessage,loginPage.welcomeMessage+' is not displayed.').toBeVisible();
     await loginPage.validateCategories();
     await loginPage.login('test.pass1@gmail.com','TestPass@123');
-
-    await page.pause();
-
-    
-
-
-
 });

@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-import { assert } from 'console';
 import { RegistrationPage } from '../Pages/registrationPage';
 
 test('Verify registration functionality', async ({ page }) => {
@@ -29,12 +28,7 @@ test('Verify registration functionality', async ({ page }) => {
     // Entering password
     await registrationPage.password.fill('TestPass@123');
     await registrationPage.confirmPassword.fill('TestPass@123');
-
-    await page.pause();
-
     await registrationPage.registrationSubmitButton.click();
-
     await registrationPage.continueButton.click();
     await registrationPage.logoutButton.click();
-
 });
