@@ -74,4 +74,9 @@ exports.ProductSearchPage = class ProductSearchPage {
         }
     }
 
+    async checkingPrepopulatedDetails(firstName,lastName,username){
+        await this.page.getByRole('input', { value: firstName + " " + lastName }).isVisible();
+        await this.page.getByRole('input', { value: username }).isVisible();
+    }
+
 }

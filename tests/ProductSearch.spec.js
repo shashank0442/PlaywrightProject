@@ -16,6 +16,8 @@ test('Verify login functionality', async ({ page }) => {
     const productSearchPage = new ProductSearchPage(page);
     await loginPage.openLoginPage();
     await loginPage.login(username, password);
+    
+    //removing old address if present.
     await productSearchPage.removeExistingAddress();
 
     await productSearchPage.giftCardMenuButton.click();
@@ -29,20 +31,15 @@ test('Verify login functionality', async ({ page }) => {
     await expect(productSearchPage.redeemMessage).toContainText(redeemText);
     await productSearchPage.recipientNameLocator.fill(recipientName);
     await productSearchPage.recipientEmailLocator.fill(recipientEmail);
-
-    await page.getByRole('input', { value: firstName + " " + lastName }).isVisible();
-    await page.getByRole('input', { value: username }).isVisible();
+    await productSearchPage.checkingPrepopulatedDetails(firstName,lastName,username);
     await expect(productSearchPage.singleProductCostLocator).toContainText('5.00');
     await productSearchPage.productQuantity.fill('2');
     await productSearchPage.addToCartButtonOnProductDetailPage.click();
 
     //add to cart
     await productSearchPage.addToCartButtonLocator.click();
-
-    page.pause();
     await productSearchPage.itemQuantityLocator.fill('2');
     await productSearchPage.updateShoppingCart.click();
-
     await productSearchPage.termsLocator.check();
     await productSearchPage.checkoutButton.click();
 
@@ -54,18 +51,13 @@ test('Verify login functionality', async ({ page }) => {
     //Validating Error message on the page.
     await productSearchPage.continueButton.click();
     await productSearchPage.validateBillingAddressErrorMessage();
-
     await productSearchPage.countryLocator.selectOption('41');
-
     await productSearchPage.fillFormValues();
-
     await productSearchPage.continueButton.click();
 
     await expect(productSearchPage.paymentMethod).toContainText('Payment method');
     await expect(productSearchPage.codOption).toContainText('Cash On Delivery (COD) (7.00)');
     await productSearchPage.continueButton.click();
-
-    await page.pause();
     await productSearchPage.paymentMethodContinueButton.click();
     await expect(productSearchPage.paymentInformationHeading).toContainText('Payment information');
     await expect(productSearchPage.codMessage).toContainText('You will pay by COD');
@@ -79,7 +71,6 @@ test('Verify login functionality', async ({ page }) => {
 
     await productSearchPage.confirmOrderButton.click();
     await expect(productSearchPage.thankYouMessage).toContainText('Thank you');
-
     await expect(productSearchPage.orderConfirmationDetails).toContainText('Your order has been successfully processed!');
     await expect(productSearchPage.orderConfirmationDetails).toContainText('Click here for order details.');
     await productSearchPage.continueButton.click();
