@@ -19,14 +19,28 @@ exports.ProductSearchPage = class ProductSearchPage {
         this.recipientEmailLocator = page.getByLabel('Recipient\'s Email:');
         this.singleProductCostLocator = page.locator('#product-details-form');
         this.addToCartButtonLocator = page.locator('#topcartlink a span.cart-label');
-        this.itemQuantityLocator = page.locator('input[name="itemquantity4710008"]');
+
+        this.itemQuantityLocator = page.locator('input[class="qty-input"]');
+
         this.updateShoppingCart = page.getByRole('button', { name: 'Update shopping cart' })
         this.termsLocator = page.locator('#termsofservice');
 
         this.addToCartButtonOnProductDetailPage = page.locator('#add-to-cart-button-1');
-        this.continueButtonOnBillingAddress = page.getByRole('button', { name: 'Continue' });
+        this.continueButton = page.getByRole('button', { name: 'Continue' });
 
         this.checkoutButton = page.getByRole('button', { name: 'Checkout' });
+
+        this.countryLocator = page.getByLabel('Country:');
+        this.paymentMethod = page.locator('#opc-payment_method');
+        this.codOption = page.locator('#checkout-payment-method-load');
+
+        this.paymentMethodContinueButton = page.locator('#payment-info-buttons-container');
+        this.paymentInformationHeading = page.locator('#opc-payment_info');
+        this.codMessage = page.getByRole('cell');
+        this.billingDetails = page.locator('#checkout-confirm-order-load');
+        this.confirmOrderButton = page.getByRole('button', { name: 'Confirm' });
+        this.thankYouMessage = page.locator('h1');
+        this.orderConfirmationDetails = page.locator('body');
 
     }
 
@@ -50,14 +64,14 @@ exports.ProductSearchPage = class ProductSearchPage {
     }
 
     async removeExistingAddress() {
-        await this.page.goto("https://demowebshop.tricentis.com/customer/addresses");
-        await this.page.getByRole('button', { name: 'Delete' }).click();
-            this.page.once('dialog', dialog => {
-                console.log(`Dialog message: ${dialog.message()}`);
-                dialog.accept();
-            });
-        this.page.on('dialog', dialog => dialog.accept());
-        await page.getByRole('OK').click();
+        if (!await this.page.getByText('No addresses').isVisible()) {
+            await this.page.goto("https://demowebshop.tricentis.com/customer/addresses");
+            while (!await this.page.getByText('No addresses').isVisible()) {
+                await console.log('\n\n\n\n Inside while \n\n\n');
+                await this.page.getByRole('button', { name: 'Delete' }).click();
+                await this.page.on('dialog', dialog => dialog.accept());
+            }
+        }
     }
 
 }

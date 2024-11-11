@@ -16,22 +16,7 @@ test('Verify login functionality', async ({ page }) => {
     const productSearchPage = new ProductSearchPage(page);
     await loginPage.openLoginPage();
     await loginPage.login(username, password);
-
-
-    //-------------------------Need to run again ------------------------------
-
-    if (!await page.getByText('No addresses').isVisible()) {
-        await page.goto("https://demowebshop.tricentis.com/customer/addresses");
-        while (!await page.getByText('No addresses').isVisible()) {
-            await page.getByRole('button', { name: 'Delete' }).click();
-            page.on('dialog', dialog => dialog.accept());
-        }
-    }
-    //-------------------------------------------------------------------------
-
-    //await productSearchPage.removeExistingAddress();
-
-
+    await productSearchPage.removeExistingAddress();
 
     await productSearchPage.giftCardMenuButton.click();
 
@@ -53,13 +38,10 @@ test('Verify login functionality', async ({ page }) => {
 
     //add to cart
     await productSearchPage.addToCartButtonLocator.click();
-    let itemQuantity = await productSearchPage.itemQuantityLocator.getAttribute('value');
-    console.log("itemQuantity == " + itemQuantity);
 
-    if (!itemQuantity == 2) {
-        await productSearchPage.itemQuantityLocator.fill('2');
-        await productSearchPage.updateShoppingCart.click();
-    }
+    page.pause();
+    await productSearchPage.itemQuantityLocator.fill('2');
+    await productSearchPage.updateShoppingCart.click();
 
     await productSearchPage.termsLocator.check();
     await productSearchPage.checkoutButton.click();
@@ -70,38 +52,37 @@ test('Verify login functionality', async ({ page }) => {
     }
 
     //Validating Error message on the page.
-    await productSearchPage.continueButtonOnBillingAddress.click();
+    await productSearchPage.continueButton.click();
     await productSearchPage.validateBillingAddressErrorMessage();
 
-    await page.getByLabel('Country:').selectOption('41');
+    await productSearchPage.countryLocator.selectOption('41');
 
     await productSearchPage.fillFormValues();
 
-    await productSearchPage.continueButtonOnBillingAddress.click();
-    await expect(page.locator('#opc-payment_method')).toContainText('Payment method');
+    await productSearchPage.continueButton.click();
 
-    await expect(page.locator('#checkout-payment-method-load')).toContainText('Cash On Delivery (COD) (7.00)');
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await expect(productSearchPage.paymentMethod).toContainText('Payment method');
+    await expect(productSearchPage.codOption).toContainText('Cash On Delivery (COD) (7.00)');
+    await productSearchPage.continueButton.click();
 
     await page.pause();
-    await page.locator('#payment-info-buttons-container').click();
-    await expect(page.locator('#opc-payment_info')).toContainText('Payment information');
-    await expect(page.getByRole('cell')).toContainText('You will pay by COD');
-    await page.getByRole('button', { name: 'Continue' }).click();
-    await page.locator('#checkout-confirm-order-load li').filter({ hasText: 'Billing Address' }).click();
-    await expect(page.locator('#checkout-confirm-order-load')).toContainText('Billing Address');
-   // await expect(page.locator('#checkout-confirm-order-load')).toContainText('Billing Address test pass Email: test.pass1@gmail.com Phone: 9876543210 Fax: 9876987699 ABC Private LTD a b Pune , 111111 India Payment Method Cash On Delivery (COD)');
-    await expect(page.getByText('10.00').nth(1)).toBeVisible();
-    await expect(page.locator('#checkout-confirm-order-load')).toContainText('10.00');
-    await expect(page.locator('#checkout-confirm-order-load')).toContainText('17.00');
-    await page.getByRole('button', { name: 'Confirm' }).click();
-    await expect(page.locator('h1')).toContainText('Thank you');
-    await page.getByText('Your order has been successfully processed! Order number: 1824207 Click here').click();
-    await expect(page.locator('body')).toContainText('Your order has been successfully processed!');
-    await expect(page.locator('body')).toContainText('Order number: 1824207');
-    await expect(page.locator('body')).toContainText('Click here for order details.');
-    await page.getByText('Your order has been successfully processed! Order number: 1824207 Click here').click();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await productSearchPage.paymentMethodContinueButton.click();
+    await expect(productSearchPage.paymentInformationHeading).toContainText('Payment information');
+    await expect(productSearchPage.codMessage).toContainText('You will pay by COD');
+    await productSearchPage.continueButton.click();
+    await expect(productSearchPage.billingDetails).toContainText('Billing Address');
+
+    //Checking Subtotal
+    await expect(productSearchPage.billingDetails).toContainText('10.00');
+    //Checking total
+    await expect(productSearchPage.billingDetails).toContainText('17.00');
+
+    await productSearchPage.confirmOrderButton.click();
+    await expect(productSearchPage.thankYouMessage).toContainText('Thank you');
+
+    await expect(productSearchPage.orderConfirmationDetails).toContainText('Your order has been successfully processed!');
+    await expect(productSearchPage.orderConfirmationDetails).toContainText('Click here for order details.');
+    await productSearchPage.continueButton.click();
 
     await loginPage.welcomeMessage.isVisible();
 });
