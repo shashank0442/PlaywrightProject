@@ -39,5 +39,9 @@ after running your tests, create a detailed Allure report:
 
 > allure generate ./allure-results -o ./allure-report --clean
 
+Opening the report 
+
+> allure open ./allure-report
+
 <h2> ♛ Reference URL's</h2>
 > https://www.npmjs.com/package/allure-playwright
