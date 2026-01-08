@@ -1,4 +1,7 @@
 <h1>🚀 Playwright Test Automation with Allure Reporting 🚀</h1>
+<img width="950" height="140" alt="pw1" src="https://github.com/user-attachments/assets/dad60417-2607-4945-b9eb-8d7d894e8541" />
+
+
 <p>This project utilizes Playwright for efficient end-to-end testing and Allure for comprehensive reporting, providing a clear overview of your web application's behavior.</p>
 
 <h2> ☞ Key Features:</h2>
