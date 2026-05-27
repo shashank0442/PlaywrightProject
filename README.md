@@ -19,7 +19,11 @@ Run the following command in your project's root directory to initiate Playwrigh
 
 >npm init playwright@latest
 
-Verify Installation:
+<h4>  Run Example test </h4>
+
+>npx playwright test
+
+<h4> Verify Installation: </h4>
 
 Check if Playwright is installed correctly using:
 
@@ -46,5 +50,8 @@ Opening the report
 
 > allure open ./allure-report
 
-<h2> ♛ Reference URL's</h2>
-> https://www.npmjs.com/package/allure-playwright
+<h2> ♛ Reference URL's </h2>
+
+https://playwright.dev/docs/intro
+
+https://www.npmjs.com/package/allure-playwright
