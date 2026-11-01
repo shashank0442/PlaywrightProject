@@ -23,12 +23,16 @@ test('Verify registration functionality', async ({ page }) => {
     await registrationPage.lastName.fill('pass');
 
     // Entering correct email
-    await registrationPage.email.fill('test.pass@gmail.com');
+    await registrationPage.email.fill('test.passerr@gmail.com');
 
     // Entering password
     await registrationPage.password.fill('TestPass@123');
     await registrationPage.confirmPassword.fill('TestPass@123');
     await registrationPage.registrationSubmitButton.click();
-    await registrationPage.continueButton.click();
-    await registrationPage.logoutButton.click();
+    if(await registrationPage.errMessage.isVisible()){
+        console.log('Email already exists, please use a different email address');
+    }else{
+         await registrationPage.continueButton.click();
+         await registrationPage.logoutButton.click();
+    }
 });

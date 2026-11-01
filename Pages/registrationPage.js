@@ -28,6 +28,8 @@ exports.RegistrationPage = class RegistrationPage {
         this.continueButton = page.getByRole('button', { name: 'Continue' });
         this.logoutButton = page.getByRole('link', { name: 'Log out' });
 
+        this.errMessage = page.getByText('The specified email already');
+
     }
 
     async openDemowebshop() {
